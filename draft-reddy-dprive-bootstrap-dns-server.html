@@ -1,0 +1,861 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>A Bootstrapping Procedure to Discover and Authenticate DNS-over-(D)TLS and DNS-over-HTTPS Servers</title>
+
+  
+<style type="text/css">/*<![CDATA[*/
+
+body {
+  font: 16px "Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
+  color: #333;
+  font-size-adjust: 0.5;
+  line-height: 24px;
+  margin: 75px auto;
+  max-width: 624px;
+  padding: 0 5px;
+}
+
+.title, .filename, h1, h2, h3, h4, h5 {
+  font: 16px "Roboto Condensed","Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
+  font-size-adjust: 0.5;
+  font-weight: bold;
+  color: #333;
+  line-height: 100%;
+  margin: 1.2em 0 0.3em;
+}
+.title, #rfc\.title h1 { font-size: 32px; }
+h1, section h1, h2, section h2, section h3, nav h2 { font-size: 20px; }
+h3, section h4, h4, section h5 { font-size: 16px; }
+h1 a[href], h2 a[href], h3 a[href], h4 a[href] {
+  color: #333;
+}
+
+table {
+  margin-left: 0em;
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+  vertical-align: top;
+}
+tr:nth-child(2n+1) > td,
+tr:nth-child(2n+1) > th {
+  background-color: #f9f9f9;
+}
+td.reference {
+  max-width: 200px;
+  border-top: none;
+  padding-right: 1em;
+}
+.right {
+  text-align: right;
+}
+
+
+table.header, table#rfc\.headerblock {
+  width: 100%;
+}
+table.header td, table#rfc\.headerblock td {
+  border: none;
+  background-color: transparent;
+  color: black;
+  padding: 0;
+}
+.filename {
+  display: block;
+  color: rgb(119, 119, 119);
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 100%;
+  margin: 10px 0 32px;
+}
+#rfc\.abstract+p, #rfc\.abstract+p code, #rfc\.abstract+p samp, #rfc\.abstract+p tt {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+samp, tt, code, pre, span.tt {
+  font-size: 13.5px;
+  font-family: Consolas, monospace;
+  font-size-adjust: none;
+}
+pre {
+  background-color: #eee;
+  border: 1px solid #ddd;
+  overflow-x: auto;
+  padding: 5px;
+  margin: 5px;
+}
+.figure, caption {
+  font-style: italic;
+  margin: 0 1.5em;
+  text-align: left;
+}
+
+address {
+  margin: 16px 2px;
+  line-height: 20px;
+}
+.vcard {
+  font-style: normal;
+}
+.vcardline {
+  display: block;
+}
+.vcardline .fn, address b {
+  font-weight: normal;
+}
+.vcardline .hidden {
+  display: none;
+}
+
+dl {
+  margin-left: 1em;
+}
+dl.dl-horizontal: {
+  margin-left: 0;
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.nohang > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .5em;
+}
+dl.compact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+ul.empty {
+  list-style-type: none;
+}
+ul.empty li {
+  margin-top: .5em;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+hr.noprint {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #2a6496;
+}
+a[href]:hover {
+  background-color: #eee;
+}
+
+p, ol, ul, li {
+  padding: 0;
+}
+p {
+  margin: 0.5em 0;
+}
+ol, ul {
+  margin: 0.2em 0 0.2em 2em;
+}
+li {
+  margin: 0.2em 0;
+}
+address {
+  font-style: normal;
+}
+
+ul.toc ul {
+  margin: 0 0 0 2em;
+}
+ul.toc li {
+  list-style: none;
+  margin: 0;
+}
+
+@media screen and (min-width: 924px) {
+  body {
+    padding-right: 350px;
+  }
+  body>ul.toc, body>#rfc\.toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 500px);
+    width: 300px;
+    z-index: 1;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  body>#rfc\.toc {
+    top: 55px;
+  }
+  body>ul.toc {
+    top: 100px;
+  }
+
+  ul.toc {
+    margin: 0 0 0 4px;
+    font-size: 12px;
+    line-height: 20px;
+  }
+  ul.toc ul {
+    margin-left: 1.2em;
+  }
+}
+
+.github-fork-ribbon-wrapper {
+  display: none;
+}
+@media screen and (min-width: 800px) {
+  /* "Fork me on GitHub" CSS ribbon based on
+   * https://github.com/simonwhitaker/github-fork-ribbon-css
+   */
+  .github-fork-ribbon {
+    position: absolute;
+    padding: 2px 0;
+    background-color: #a00;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
+    font: 700 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    pointer-events: auto;
+
+    top: 38px;
+    right: -45px;
+
+    transform: rotate(45deg);
+  }
+
+  .github-fork-ribbon a[href],
+  .github-fork-ribbon a[href]:hover {
+    color: #fff;
+    background-color: transparent;
+    text-decoration: none;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
+    text-align: center;
+
+    width: 190px;
+    line-height: 18px;
+
+    display: inline-block;
+    padding: 2px 0;
+
+    border: 1.5px dotted #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .github-fork-ribbon-wrapper {
+    display: block;
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    overflow: hidden;
+    top: 0; right: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .github-fork-ribbon-wrapper {
+    position: fixed;
+  }
+  /*]]>*/</style>
+  <meta name="viewport" content="initial-scale=1.0">
+
+
+  <link href="#rfc.toc" rel="Contents">
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
+<link href="#rfc.section.2" rel="Chapter" title="2 Scope">
+<link href="#rfc.section.3" rel="Chapter" title="3 Terminology">
+<link href="#rfc.section.4" rel="Chapter" title="4 Bootstrapping Endpoint Devices">
+<link href="#rfc.section.5" rel="Chapter" title="5 Bootstrapping IoT Devices">
+<link href="#rfc.section.6" rel="Chapter" title="6 DNS-over-(D)TLS and DNS-over-HTTPS Server Discovery Procedure">
+<link href="#rfc.section.7" rel="Chapter" title="7 Connection Handshake and Service Invocation">
+<link href="#rfc.section.8" rel="Chapter" title="8 EST Service Discovery Procedure">
+<link href="#rfc.section.8.1" rel="Chapter" title="8.1 mDNS">
+<link href="#rfc.section.9" rel="Chapter" title="9 Network Reattachment">
+<link href="#rfc.section.10" rel="Chapter" title="10 Privacy Considerations">
+<link href="#rfc.section.11" rel="Chapter" title="11 Security Considerations">
+<link href="#rfc.section.12" rel="Chapter" title="12 IANA Considerations">
+<link href="#rfc.section.13" rel="Chapter" title="13 Acknowledgments">
+<link href="#rfc.references" rel="Chapter" title="14 References">
+<link href="#rfc.references.1" rel="Chapter" title="14.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="14.2 Informative References">
+<link href="#rfc.authors" rel="Chapter">
+
+
+  <meta name="generator" content="xml2rfc version 2.23.1 - https://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Reddy, T., Wing, D., Richardson, M., and M. Boucadair" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-reddy-dprive-bootstrap-dns-server-latest" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-06-14" />
+  <meta name="dct.abstract" content="This document specifies mechanisms to automatically bootstrap endpoints (e.g., hosts, Customer Equipment) to discover and authenticate DNS-over-(D)TLS and DNS-over-HTTPS servers provided by a local network." />
+  <meta name="description" content="This document specifies mechanisms to automatically bootstrap endpoints (e.g., hosts, Customer Equipment) to discover and authenticate DNS-over-(D)TLS and DNS-over-HTTPS servers provided by a local network." />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+<td class="left">DPRIVE WG</td>
+<td class="right">T. Reddy</td>
+</tr>
+<tr>
+<td class="left">Internet-Draft</td>
+<td class="right">McAfee</td>
+</tr>
+<tr>
+<td class="left">Intended status: Standards Track</td>
+<td class="right">D. Wing</td>
+</tr>
+<tr>
+<td class="left">Expires: December 16, 2019</td>
+<td class="right">Citrix</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">M. Richardson</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">Sandelman Software Works</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">M. Boucadair</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">Orange</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">June 14, 2019</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">A Bootstrapping Procedure to Discover and Authenticate DNS-over-(D)TLS and DNS-over-HTTPS Servers<br />
+  <span class="filename">draft-reddy-dprive-bootstrap-dns-server-latest</span></p>
+  
+  <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
+<p>This document specifies mechanisms to automatically bootstrap endpoints (e.g., hosts, Customer Equipment) to discover and authenticate DNS-over-(D)TLS and DNS-over-HTTPS servers provided by a local network.</p>
+<h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on December 16, 2019.</p>
+<h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
+<p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a>
+</li>
+<li>2.   <a href="#rfc.section.2">Scope</a>
+</li>
+<li>3.   <a href="#rfc.section.3">Terminology</a>
+</li>
+<li>4.   <a href="#rfc.section.4">Bootstrapping Endpoint Devices</a>
+</li>
+<li>5.   <a href="#rfc.section.5">Bootstrapping IoT Devices</a>
+</li>
+<li>6.   <a href="#rfc.section.6">DNS-over-(D)TLS and DNS-over-HTTPS Server Discovery Procedure</a>
+</li>
+<li>7.   <a href="#rfc.section.7">Connection Handshake and Service Invocation</a>
+</li>
+<li>8.   <a href="#rfc.section.8">EST Service Discovery Procedure</a>
+</li>
+<ul><li>8.1.   <a href="#rfc.section.8.1">mDNS</a>
+</li>
+</ul><li>9.   <a href="#rfc.section.9">Network Reattachment</a>
+</li>
+<li>10.   <a href="#rfc.section.10">Privacy Considerations</a>
+</li>
+<li>11.   <a href="#rfc.section.11">Security Considerations</a>
+</li>
+<li>12.   <a href="#rfc.section.12">IANA Considerations</a>
+</li>
+<li>13.   <a href="#rfc.section.13">Acknowledgments</a>
+</li>
+<li>14.   <a href="#rfc.references">References</a>
+</li>
+<ul><li>14.1.   <a href="#rfc.references.1">Normative References</a>
+</li>
+<li>14.2.   <a href="#rfc.references.2">Informative References</a>
+</li>
+</ul><li><a href="#rfc.authors">Authors' Addresses</a>
+</li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1">
+<a href="#rfc.section.1">1.</a> <a href="#intro" id="intro">Introduction</a>
+</h1>
+<p id="rfc.section.1.p.1">Traditionally a caching DNS server has been provided by local networks. This provides benefits such as low latency to reach that DNS server (owing to its network proximity to the endpoint). However, if an endpoint is configured to use Internet-hosted or public DNS-over-(D)TLS <a href="#RFC7858" class="xref">[RFC7858]</a> <a href="#RFC8094" class="xref">[RFC8094]</a> or DNS-over-HTTPS <a href="#RFC8484" class="xref">[RFC8484]</a> servers, any available local DNS server cannot serve DNS requests from local endpoints. If public DNS servers are used instead of using local DNS servers, some operational problems can occur such as those listed below:</p>
+<p></p>
+
+<ul>
+<li>"Split DNS" <a href="#RFC2775" class="xref">[RFC2775]</a> to use the special internal-only domain names (e.g., "internal.example.com") in enterprise networks will not work, and ".local" and "home.arpa" names cannot be locally resolved in home networks.</li>
+<li>Content Delivery Networks (CDNs) that map traffic based on DNS may lose the ability to direct end-user traffic to a nearby service-specific cluster in cases where a DNS service is being used that is not affiliated with the local network and which does not send "EDNS Client Subnet" (ECS) information <a href="#RFC7871" class="xref">[RFC7871]</a> to the CDN's DNS authorities <a href="#CDN" class="xref">[CDN]</a>.</li>
+</ul>
+<p id="rfc.section.1.p.3">If public DNS servers are used instead of using local DNS servers, the following discusses the impact on network-based security:</p>
+<p></p>
+
+<ul>
+<li>Various network security services are provided by Enterprise networks to protect endpoints (e.g,. Hosts, IoT devices). <a href="#I-D.camwinget-tls-use-cases" class="xref">[I-D.camwinget-tls-use-cases]</a> discusses some of the network-based security service use cases. These network security services act on DNS requests originating from endpoints.</li>
+<li>However, if an endpoint is configured to use public DNS-over-(D)TLS or DNS-over-HTTPS servers, network security services cannot act on DNS requests from these endpoints.</li>
+<li>In order to act on DNS requests from endpoints, network security services can block DNS-over-(D)TLS traffic by dropping outgoing packets to destination port 853. Identifying DNS-over-HTTPS traffic is far more challenging than DNS-over-(D)TLS traffic. Network security services may try to identify the domains offering DNS-over-HTTPS servers, and DNS-over-HTTPS traffic can be blocked by dropping outgoing packets to these domains. If an endpoint has enabled strict privacy profile (Section 5 of <a href="#RFC8310" class="xref">[RFC8310]</a>), and the network security service blocks the traffic to the public DNS server, the DNS service won't be available to the endpoint and ultimately the endpoint cannot access Internet-reachable services.</li>
+<li>If an endpoint has enabled opportunistic privacy profile (Section 5 of <a href="#RFC8310" class="xref">[RFC8310]</a>), and the network security service blocks traffic to the public DNS server, the endpoint will either fallback to an encrypted connection without authenticating the DNS server provided by the local network or fallback to clear text DNS, and cannot exchange encrypted DNS messages.</li>
+</ul>
+<p id="rfc.section.1.p.5">If the network security service fails to block DNS-over-(D)TLS or DNS-over-HTTPS traffic, this can compromise the endpoint security; some of the potential security threats are listed below:</p>
+<p></p>
+
+<ul>
+<li>The network security service cannot prevent an endpoint from accessing malicious domains.</li>
+<li>If the endpoint is an IoT device which is configured to use public DNS-over-(D)TLS or DNS-over-HTTPS servers, and if a policy enforcement point in the local network is programmed using, for example, a Manufacturer Usage Description (MUD) file <a href="#RFC8520" class="xref">[RFC8520]</a> by a MUD manager to only allow intented communications to and from the IoT device, the policy enforcement point cannot enforce the network Access Control List (ACL) rules based on domain names (Section 8 of <a href="#RFC8520" class="xref">[RFC8520]</a>).</li>
+</ul>
+<p id="rfc.section.1.p.7">If the network security service successfully blocks DNS-over-(D)TLS and DNS-over-HTTPS traffic, this can still compromise the endpoint security and privacy; some of the potential security threats are listed below:</p>
+
+<ul>
+<li>Pervasive monitoring of DNS traffic.</li>
+<li>An internal attacker can modify the DNS responses to re-direct the client to malicious servers.</li>
+</ul>
+<p id="rfc.section.1.p.8">To overcome the above threats, this document specifies a mechanism to automatically bootstrap endpoints to discover and authenticate the DNS-over-(D)TLS and DNS-over-HTTPS servers provided by their local network. The overall procedure can be structured into the following steps:</p>
+
+<ul>
+<li>
+<a href="#bootstrap-endpoint" class="xref">Bootstrapping</a> is necessary only when connecting to a new network or when the network's DNS certificate has changed. Bootstrapping authenticates the Enrollment over Secure Transport (EST) <a href="#RFC7030" class="xref">[RFC7030]</a> server to the endpoint. After authenticating the EST server, DNS server certificate used by the local network is downloaded to the endpoint. This DNS server certificate enables subsequent authenticated encrypted communication with the local DNS server (e.g., DNS-over-HTTPS) during in the connection phase.</li>
+<li>
+<a href="#discovery" class="xref">Discovery</a> is performed by a previously bootstrapped endpoint whenever connecting to a network.  During discovery, the endpoint is instructed which privacy-enabling DNS protocol(s), port number(s), and IP addresses are supported on a local network. This effectively takes the place of DNS server IP address traditionally provided by IPv4 or IPv6 DHCP or by <a href="#RFC8106" class="xref">IPv6 Router Advertisement</a>.</li>
+<li>
+<a href="#auth" class="xref">Connection handshake and service invocation</a>: The DNS client initiates a (D)TLS handshake with the DNS server learned in the discovery phase, and validates the DNS server's identity using the credentials obtained in the bootstrapping phase.</li>
+</ul>
+<p id="rfc.section.1.p.9">Note: The strict and opportunistic privacy profiles as defined in <a href="#RFC8310" class="xref">[RFC8310]</a> only applies to DNS-over-(D)TLS protocols, there has been no such distinction made for DNS-over-HTTPS protocol.</p>
+<h1 id="rfc.section.2">
+<a href="#rfc.section.2">2.</a> <a href="#scope" id="scope">Scope</a>
+</h1>
+<p id="rfc.section.2.p.1">The problems discussed in <a href="#intro" class="xref">Section 1</a> will be encountered in Enterprise networks. Typically Enterprise networks do not assume that all devices in their network are managed by the IT team or Mobile Device Management (MDM) devices, especially in the quite common BYOD ("Bring Your Own Device") scenario. The mechanisms specified in this document can be used by BYOD devices to discover and authenticate DNS-over-(D)TLS and DNS-over-HTTPS servers provided by the Enterprise network. This mechanism can also be used by IoT devices (managed by IT team) after onboarding to discover and authenticate DNS-over-(D)TLS and DNS-over-HTTPS servers provided by the Enterprise network.</p>
+<h1 id="rfc.section.3">
+<a href="#rfc.section.3">3.</a> <a href="#notation" id="notation">Terminology</a>
+</h1>
+<p id="rfc.section.3.p.1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 <a href="#RFC2119" class="xref">[RFC2119]</a><a href="#RFC8174" class="xref">[RFC8174]</a> when, and only when, they appear in all capitals, as shown here.</p>
+<p id="rfc.section.3.p.2">(D)TLS is used for statements that apply to both Transport Layer Security <a href="#RFC8446" class="xref">[RFC8446]</a> and Datagram Transport Layer Security <a href="#RFC6347" class="xref">[RFC6347]</a>. Specific terms are used for any statement that applies to either protocol alone.</p>
+<p id="rfc.section.3.p.3">This document uses the terms defined in <a href="#RFC8499" class="xref">[RFC8499]</a>.</p>
+<h1 id="rfc.section.4">
+<a href="#rfc.section.4">4.</a> <a href="#bootstrap-endpoint" id="bootstrap-endpoint">Bootstrapping Endpoint Devices</a>
+</h1>
+<p id="rfc.section.4.p.1">The following steps detail the mechanism to automatically bootstrap an endpoint with the local network's DNS server certificate: </p>
+
+<ol>
+<li>The endpoint authenticates to the local network and discovers the Enrollment over Secure Transport (EST) <a href="#RFC7030" class="xref">[RFC7030]</a> server using the procedure discussed in <a href="#EST_Discovery" class="xref">Section 8</a>.</li>
+<li>The endpoint establishes provisional TLS connection with that EST server, i.e., the endpoint provisionally accepts the unverified TLS server certificate. However, the endpoint MUST authenticate the EST server before it accepts the DNS server certificate. The endpoint either uses password-based authenticated key exchange (PAKE) with TLS 1.3 <a href="#I-D.barnes-tls-pake" class="xref">[I-D.barnes-tls-pake]</a> as an authentication method or uses the mutual authentication protocol for HTTP <a href="#RFC8120" class="xref">[RFC8120]</a> to authenticate the discovered EST server. <br><br>As a reminder, PAKE is an authentication method that allows the use of usernames and passwords over unencrypted channels without revealing the passwords to an eavesdropper. Similarly, the mutual authentication for HTTP is based on PAKE and provides mutual authentication between an HTTP client and an HTTP server using username and password as credentials. The cryptographic algorithms to use with the mutual authentication protocol for HTTP are defined in <a href="#RFC8121" class="xref">[RFC8121]</a>.</li>
+<li>The endpoint needs to use PAKE scheme to perform authentication the first time it connects to an EST server. If the EST server authentication is successful, the server's identity can be used to authenticate subsequent TLS connections to that EST server. The endpoint configures the reference identifier for the EST server using the DNS-ID identifier type in the EST server certificate. On subsequent connections to the EST server, the endpoint MUST validate the EST server certificate using the Implict Trust Anchor database (i.e, the EST server certificate must pass PKIX certification path validation) and match the reference identifier against the EST server's identity according to the rules specified in Section 6.4 of <a href="#RFC6125" class="xref">[RFC6125]</a>.</li>
+<li>The endpoint learns the End-Entity certificates <a href="#RFC8295" class="xref">[RFC8295]</a> from the EST server. The certificate provisioned to the DNS server in the local network will be treated as a End-Entity certificate. As a reminder, the End-Entity certificates must be validated by the endpoint using an authorized trust anchor (Section 3.2 of <a href="#RFC8295" class="xref">[RFC8295]</a>). The endpoint needs to identify the certificate provisioned to the DNS server. The SRV-ID identifier type <a href="#RFC6125" class="xref">[RFC6125]</a> within subjectAltName entry MUST be used to identify the DNS server certificate. <br><br>For example, DNS server certificate will include SRV-ID "_domain-s.example.net" along with DNS-ID "example.net". The SRV service label "domain-s" is defined in Section 6 of <a href="#RFC7858" class="xref">[RFC7858]</a>. As a reminder, the protocol component is not included in the SRV-ID <a href="#RFC4985" class="xref">[RFC4985]</a>.</li>
+<li>The endpoint configures the authentication domain name (ADN) (defined in <a href="#RFC8310" class="xref">[RFC8310]</a>) for the DNS server from the DNS-ID identifier type within subjectAltName entry in the DNS server certificate. The DNS server certificate is associated with the ADN to be matched with the certificate given by the DNS server in (D)TLS. To some extent, this approach is similar to certificate usage PKIX-EE(1) defined in <a href="#RFC7671" class="xref">[RFC7671]</a>.</li>
+</ol>
+<p><a href="#fig1" class="xref">Figure 1</a> illustrates a sequence diagram for bootstrapping an endpoint with the local network's DNS server certificate.</p>
+<div id="rfc.figure.1"></div>
+<div id="fig1"></div>
+<pre>                                                                                                                                                                                                     
++----------+                                     +--------+  +--------+                               
+| Endpoint |                                     |  EST   |  |  DNS   |   
+|          |                                     | Server |  | Server |                     
++----------+                                     +--------+  +--------+                               
+        | DNS-SD query to discover the EST server      |          |                                         
+        |--------------------------------------------------------&gt;|                                         
+        |                                              |          |
+        | optional: mDNS query to                      |          |
+        |  discover the EST server                     |          |
+        |---------------------------------------------&gt;|          | 
+        |                                              |          |                                         
+        | Establish provisional TLS connection         |          |                                         
+        |&lt;--------------------------------------------&gt;|          |                                         
+        |                                              |          |                                         
+        | PAKE scheme to authenticate the EST server   |          | 
+        |&lt;--------------------------------------------&gt;|          |                                         
+        |                                              |          |                                         
+[Generate reference identifier for the EST server      |          |                                         
+ to compare with the EST server certificate            |          |
+ in subsequent TLS connections]                        |          |                           
+        |                                              |          |                                         
+        |      Get EE certificates                     |          |                                         
+        |---------------------------------------------&gt;|          |                                         
+        |                                              |          |                                         
+[Identify the DNS server certificate in EE             |          | 
+ certificates to match with the certificate            |          |  
+ by the DNS server in (D)TLS handshake]                |          |                                          
+                                                       |          |
+[Configure ADN and associate DNS server certificate]   |          | 
+        |                                              |          |                                         
+</pre>
+<p class="figure">Figure 1: Bootstrapping Endpoint Devices</p>
+<p></p>
+<h1 id="rfc.section.5">
+<a href="#rfc.section.5">5.</a> <a href="#bootstrap-iot" id="bootstrap-iot">Bootstrapping IoT Devices</a>
+</h1>
+<p id="rfc.section.5.p.1">The following steps explain the mechanism to automatically bootstrap IoT devices with local network's CA certificates and DNS server certificate: </p>
+
+<ul><li>Bootstrapping Remote Secure Key Infrastructures (BRSKI) discussed in <a href="#I-D.ietf-anima-bootstrapping-keyinfra" class="xref">[I-D.ietf-anima-bootstrapping-keyinfra]</a> provides a solution for secure automated bootstrap of devices. BRSKI specifies means to provision credentials on devices to be used to operationally access networks. In addition, BRSKI provides an automated mechanism for the bootstrap distribution of CA certificates from the EST server. The IoT device can use BRSKI to automatically bootstrap the IoT device using the IoT manufacturer provisioned X.509 certificate, in combination with a registrar provided by the local network and IoT device manufacturer's authorizing service (MASA):<ol>
+<li>The IoT device authenticates to the local network using the IoT manufacturer provisioned X.509 certificate. The IoT device can request and get a voucher from the MASA service via the registrar. The voucher is signed by the MASA service and includes the local network's CA public key.</li>
+<li>The IoT device validates the signed voucher using the manufacturer installed trust anchor associated with the MASA, stores the CA's public key and validates the provisional TLS connection to the registrar.</li>
+<li>The IoT device requests the full EST distribution of current CA certificates (Section 5.9.1 in <a href="#I-D.ietf-anima-bootstrapping-keyinfra" class="xref">[I-D.ietf-anima-bootstrapping-keyinfra]</a>) from the registrar operating as a BRSKI-EST server. The IoT devices stores the CA certificates as Explicit Trust Anchor database entries. The IoT device uses the Explicit Trust Anchor database to validate the DNS server certificate.</li>
+<li>The IoT device learns the End-Entity certificates from the BRSKI-EST server. The certificate provisioned to the DNS server in the local network will be treated as an End-Entity certificate. The IoT device needs to identify the certificate provisioned to the DNS server. The SRV-ID identifier type within subjectAltName entry MUST be used to identify the DNS server certificate.</li>
+<li>The endpoint configures the ADN for the DNS server from the DNS-ID identifier type within subjectAltName entry in the DNS server certificate. The DNS server certificate is associated with the ADN to be matched with the certificate given by the DNS server in (D)TLS.</li>
+</ol>
+</li></ul>
+<h1 id="rfc.section.6">
+<a href="#rfc.section.6">6.</a> <a href="#discovery" id="discovery">DNS-over-(D)TLS and DNS-over-HTTPS Server Discovery Procedure</a>
+</h1>
+<p id="rfc.section.6.p.1">A DNS client discovers the DNS server in the local network supporting DNS-over-TLS, DNS-over-DTLS and DNS-over-HTTPS protocols by using DNS-based Service Discovery (DNS-SD) <a href="#RFC6763" class="xref">[RFC6763]</a>.  DNS-SD provides generic solution for discovering services available in a local network. DNS-SD defines a set of naming rules for certain DNS record types that they use for advertising and discovering services.  Section 4.1 of <a href="#RFC6763" class="xref">[RFC6763]</a> specifies that a service instance name in DNS-SD has the following structure: </p>
+<pre>&lt;Instance&gt; . &lt;Service&gt; . &lt;Domain&gt;</pre>
+<p></p>
+<p id="rfc.section.6.p.3">The &lt;Domain&gt; portion specifies the authentication domain name.  The &lt;Service&gt; portion of the DNS service instance name MUST be "_dprive._udp" or "_dprive._tcp" or "_doh._tcp". If no DNS-SD records can be retrieved, the discovery procedure fails for this authentication domain name. However, before retrying a lookup that has failed, a DNS client MUST wait a time period that is appropriate for the encountered error (e.g., NXDOMAIN, timeout, etc.). If DNS-over-HTTPS protocol is supported by the DNS server, the DNS client finds the URI template of the DNS-over-HTTPS server using the mechanism specified in <a href="#I-D.sah-resinfo-doh" class="xref">[I-D.sah-resinfo-doh]</a> to use the https URI scheme (Section 3 of <a href="#RFC8484" class="xref">[RFC8484]</a>). </p>
+<h1 id="rfc.section.7">
+<a href="#rfc.section.7">7.</a> <a href="#auth" id="auth">Connection Handshake and Service Invocation</a>
+</h1>
+<p id="rfc.section.7.p.1">The DNS client initiates (D)TLS handshake with the DNS server, the DNS server presents its certificate in ServerHello message, and the DNS client MUST match the DNS server certificate downloaded in Step 4 in <a href="#bootstrap-endpoint" class="xref">Section 4</a> or <a href="#bootstrap-iot" class="xref">Section 5</a> with the certificate provided by the DNS server in (D)TLS handshake. If the match is successful, the DNS client MUST validate the server certificate using the Implicit Trust Anchor database (i.e., the DNS server certificate must pass PKIX certification path validation).</p>
+<p id="rfc.section.7.p.2">If the match is successful and server certificate is successfully validated, the client continues with the connection as normal.  Otherwise, the client MUST treat the server certificate validation failure as a non-recoverable error. If the DNS client cannot reach or establish an authenticated and encrypted connection with the privacy-enabling DNS server provided by the local network, the DNS client can fallback to the privacy-enabling public DNS server.</p>
+<h1 id="rfc.section.8">
+<a href="#rfc.section.8">8.</a> <a href="#EST_Discovery" id="EST_Discovery">EST Service Discovery Procedure</a>
+</h1>
+<p id="rfc.section.8.p.1">A EST client discovers the EST server in the local network by using DNS-based Service Discovery (DNS-SD) <a href="#RFC6763" class="xref">[RFC6763]</a> or Multicast DNS (mDNS) <a href="#RFC6762" class="xref">[RFC6762]</a>. The &lt;Domain&gt; portion specifies the DNS sub-domain where the service instance is registered. It may be "local.", indicating the mDNS local domain, or it may be a conventional domain name such as "example.com.". The &lt;Service&gt; portion of the EST service instance name MUST be "_est._tcp".</p>
+<h1 id="rfc.section.8.1">
+<a href="#rfc.section.8.1">8.1.</a> mDNS</h1>
+<p id="rfc.section.8.1.p.1">A EST client application can proactively discover an EST server being advertised in the site by multicasting a PTR query to the following:</p>
+<p></p>
+
+<ul><li>"_est._tcp.local"</li></ul>
+
+<p>A EST server can send out gratuitous multicast DNS answer packets whenever it starts up, wakes from sleep, or detects a change in EST server configuration. EST client application can receive these gratuitous packets and cache information contained in them.</p>
+<h1 id="rfc.section.9">
+<a href="#rfc.section.9">9.</a> <a href="#reattach" id="reattach">Network Reattachment</a>
+</h1>
+<p id="rfc.section.9.p.1">On subsequent attachments to the network, the endpoint discovers the privacy-enabling DNS server using the authentication domain name (configured in Step 5 of <a href="#bootstrap-endpoint" class="xref">Section 4</a> or <a href="#bootstrap-iot" class="xref">Section 5</a>), initiates (D)TLS handshake with the DNS server and follows the mechanism discussed in <a href="#auth" class="xref">Section 7</a> to validate the DNS server certificate.</p>
+<p id="rfc.section.9.p.2">If the DNS server certificate is invalid (e.g., revoked or expired) or the procedure to discover the privacy-enabling DNS server fails (e.g.  the domain name of the privacy-enabling DNS server has changed because the Enterprise network has switched to a public privacy-enabling DNS server capable of blocking access to malicious domains), the endpoint discovers and initiates TLS handshake with the EST server, and uses the validation techniques described in <a href="#RFC6125" class="xref">[RFC6125]</a> to compare the reference identifier (created in Step 2 of <a href="#bootstrap-endpoint" class="xref">Section 4</a> in this document) to the EST server certificate and verifies the entire certification path as per <a href="#RFC5280" class="xref">[RFC5280]</a>. The endpoint then gets the DNS server certificate from the EST server. If the DNS-ID identifier type within subjectAltName entry in the DNS server certificate does not match the configured ADN, the ADN is replaced with the DNS-ID identifier type. The DNS server certificate associated with the ADN is replaced with the one provided by the EST server. If the ADN has changed, the endpoint discovers the privacy-enabling DNS server, initiates (D)TLS handshake with the DNS server and follows the mechanism discussed in <a href="#auth" class="xref">Section 7</a> to validate the DNS server certificate.</p>
+<p><a href="#fig2" class="xref">Figure 2</a> illustrates a sequence diagram for re-configuring an endpoint with ADN and local network's DNS server certificate on subsequent attachments to the network.</p>
+<div id="rfc.figure.2"></div>
+<div id="fig2"></div>
+<pre>+----------+                                     +--------+  +--------+                               
+| Endpoint |                                     |  EST   |  |  DNS   |   
+|          |                                     | Server |  | Server |                     
++----------+                                     +--------+  +--------+                               
+        | DNS-SD query to discover the EST server      |          |                                         
+        |--------------------------------------------------------&gt;|                                         
+        |                                              |          |
+        | optional: mDNS query to                      |          |
+        | discover the EST server                      |          |
+        |---------------------------------------------&gt;|          | 
+        |                                              |          |                                         
+        | Establish TLS connection                     |          | 
+        | and validate EST server certificate          |          |
+        |&lt;--------------------------------------------&gt;|          |                                         
+        |                                              |          |                                         
+        |      Get EE certificates                     |          |                                         
+        |&lt;--------------------------------------------&gt;|          |                                         
+        |                                              |          |                                         
+[Identify the DNS server certificate in EE             |          | 
+ certificates to match with the certificate            |          |  
+ by the DNS server in (D)TLS handshake]                |          |                                          
+                                                       |          |
+[Re-configure ADN and associate DNS server certificate]|          | 
+        |                                              |          |
+
+</pre>
+<p class="figure">Figure 2: Bootstrapping Endpoint Devices on subsequent attachments to the network</p>
+<p></p>
+<h1 id="rfc.section.10">
+<a href="#rfc.section.10">10.</a> <a href="#privacy" id="privacy">Privacy Considerations</a>
+</h1>
+<p><a href="#RFC7626" class="xref">[RFC7626]</a> discusses DNS privacy considerations in both "on the wire" (Section 2.4 of <a href="#RFC7626" class="xref">[RFC7626]</a>) and "in the server" (Section 2.5 of <a href="#RFC7626" class="xref">[RFC7626]</a> contexts. The endpoint may not know if the DNS-over-(D)TLS or DNS-over-HTTPS server in the local network has a privacy preserving data policy. TODO can be used by the client to discover the privacy preserving data policy of the DNS server.</p>
+<h1 id="rfc.section.11">
+<a href="#rfc.section.11">11.</a> <a href="#Security" id="Security">Security Considerations</a>
+</h1>
+<p id="rfc.section.11.p.1">The bootstrapping procedure to obtain the certificate of the local networks DNS server uses a client identity and password to authenticate the EST server using PAKE schemes. Security considerations such as those discussed in <a href="#I-D.barnes-tls-pake" class="xref">[I-D.barnes-tls-pake]</a> or <a href="#RFC8120" class="xref">[RFC8120]</a> and <a href="#RFC8121" class="xref">[RFC8121]</a> need to be taken into consideration.</p>
+<p id="rfc.section.11.p.2">Users cannot be expected to enable or disable the bootstrapping or the discovery procedure as they switch networks. Thus, it is RECOMMENDED that users indicate to their system in some way that they desire bootstrapping to be performed when connecting to a specific network, similar to the way users disable VPN connection in specific network (e.g., Enterprise network) and enable VPN connection by default in other networks.</p>
+<p id="rfc.section.11.p.3">If an endpoint has enabled strict privacy profile, and the network security service blocks the traffic to the privacy-enabling public DNS server, a hard failure occurs and the user is notified. The user has a choice to switch to another network or if the user trusts the network, the user can enable strict privacy profile with the DNS-over-(D)TLS or DNS-over-HTTPS server discovered in the network instead of downgrading to opportunistic privacy profile.</p>
+<p id="rfc.section.11.p.4">The primary attacks against the methods described in <a href="#discovery" class="xref">Section 6</a> are the ones that would lead to impersonation of a DNS server and spoofing the DNS response to indicate that the DNS server does not support any privacy-enabling protocols. To protect against DNS-vectored attacks, secured DNS (DNSSEC) can be used to ensure the validity of the DNS records received. Impersonation of the DNS server is prevented by validating the certificate presented by the DNS server. If the EST server conveys the DNS server certificate, but the DNS-SD lookup indicates that the DNS server does not support any privacy-enabling protocols, the client can detect the DNS response is spoofed.</p>
+<p id="rfc.section.11.p.5">Security considerations in <a href="#I-D.ietf-anima-bootstrapping-keyinfra" class="xref">[I-D.ietf-anima-bootstrapping-keyinfra]</a> need to be taken into consideration for IoT devices.</p>
+<h1 id="rfc.section.12">
+<a href="#rfc.section.12">12.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
+</h1>
+<p id="rfc.section.12.p.1">IANA is requested to allocate the SRV service name of "dprive" for DNS-over-TLS or DNS-over-DTLS, and the service name of "doh" for DNS-over-HTTPS.</p>
+<p id="rfc.section.12.p.2">IANA is requested to allocate the SRV service name of "est".</p>
+<h1 id="rfc.section.13">
+<a href="#rfc.section.13">13.</a> <a href="#acknowledgments" id="acknowledgments">Acknowledgments</a>
+</h1>
+<p id="rfc.section.13.p.1">Thanks to Joe Hildebrand, Harsha Joshi, Shashank Jain, Patrick McManus, Bob Harold, Livingood Jason, Winfield Alister, Eliot Lear and Sara Dickinson for the discussion and comments.</p>
+<h1 id="rfc.references">
+<a href="#rfc.references">14.</a> References</h1>
+<h1 id="rfc.references.1">
+<a href="#rfc.references.1">14.1.</a> Normative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="RFC2119">[RFC2119]</b></td>
+<td class="top">
+<a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC4985">[RFC4985]</b></td>
+<td class="top">
+<a>Santesson, S.</a>, "<a href="https://tools.ietf.org/html/rfc4985">Internet X.509 Public Key Infrastructure Subject Alternative Name for Expression of Service Name</a>", RFC 4985, DOI 10.17487/RFC4985, August 2007.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC5280">[RFC5280]</b></td>
+<td class="top">
+<a>Cooper, D.</a>, <a>Santesson, S.</a>, <a>Farrell, S.</a>, <a>Boeyen, S.</a>, <a>Housley, R.</a> and <a>W. Polk</a>, "<a href="https://tools.ietf.org/html/rfc5280">Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile</a>", RFC 5280, DOI 10.17487/RFC5280, May 2008.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6125">[RFC6125]</b></td>
+<td class="top">
+<a>Saint-Andre, P.</a> and <a>J. Hodges</a>, "<a href="https://tools.ietf.org/html/rfc6125">Representation and Verification of Domain-Based Application Service Identity within Internet Public Key Infrastructure Using X.509 (PKIX) Certificates in the Context of Transport Layer Security (TLS)</a>", RFC 6125, DOI 10.17487/RFC6125, March 2011.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6347">[RFC6347]</b></td>
+<td class="top">
+<a>Rescorla, E.</a> and <a>N. Modadugu</a>, "<a href="https://tools.ietf.org/html/rfc6347">Datagram Transport Layer Security Version 1.2</a>", RFC 6347, DOI 10.17487/RFC6347, January 2012.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6762">[RFC6762]</b></td>
+<td class="top">
+<a>Cheshire, S.</a> and <a>M. Krochmal</a>, "<a href="https://tools.ietf.org/html/rfc6762">Multicast DNS</a>", RFC 6762, DOI 10.17487/RFC6762, February 2013.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6763">[RFC6763]</b></td>
+<td class="top">
+<a>Cheshire, S.</a> and <a>M. Krochmal</a>, "<a href="https://tools.ietf.org/html/rfc6763">DNS-Based Service Discovery</a>", RFC 6763, DOI 10.17487/RFC6763, February 2013.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7030">[RFC7030]</b></td>
+<td class="top">
+<a>Pritikin, M.</a>, <a>Yee, P.</a> and <a>D. Harkins</a>, "<a href="https://tools.ietf.org/html/rfc7030">Enrollment over Secure Transport</a>", RFC 7030, DOI 10.17487/RFC7030, October 2013.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7858">[RFC7858]</b></td>
+<td class="top">
+<a>Hu, Z.</a>, <a>Zhu, L.</a>, <a>Heidemann, J.</a>, <a>Mankin, A.</a>, <a>Wessels, D.</a> and <a>P. Hoffman</a>, "<a href="https://tools.ietf.org/html/rfc7858">Specification for DNS over Transport Layer Security (TLS)</a>", RFC 7858, DOI 10.17487/RFC7858, May 2016.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8094">[RFC8094]</b></td>
+<td class="top">
+<a>Reddy, T.</a>, <a>Wing, D.</a> and <a>P. Patil</a>, "<a href="https://tools.ietf.org/html/rfc8094">DNS over Datagram Transport Layer Security (DTLS)</a>", RFC 8094, DOI 10.17487/RFC8094, February 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8121">[RFC8121]</b></td>
+<td class="top">
+<a>Oiwa, Y.</a>, <a>Watanabe, H.</a>, <a>Takagi, H.</a>, <a>Maeda, K.</a>, <a>Hayashi, T.</a> and <a>Y. Ioku</a>, "<a href="https://tools.ietf.org/html/rfc8121">Mutual Authentication Protocol for HTTP: Cryptographic Algorithms Based on the Key Agreement Mechanism 3 (KAM3)</a>", RFC 8121, DOI 10.17487/RFC8121, April 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8174">[RFC8174]</b></td>
+<td class="top">
+<a>Leiba, B.</a>, "<a href="https://tools.ietf.org/html/rfc8174">Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</a>", BCP 14, RFC 8174, DOI 10.17487/RFC8174, May 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8295">[RFC8295]</b></td>
+<td class="top">
+<a>Turner, S.</a>, "<a href="https://tools.ietf.org/html/rfc8295">EST (Enrollment over Secure Transport) Extensions</a>", RFC 8295, DOI 10.17487/RFC8295, January 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8446">[RFC8446]</b></td>
+<td class="top">
+<a>Rescorla, E.</a>, "<a href="https://tools.ietf.org/html/rfc8446">The Transport Layer Security (TLS) Protocol Version 1.3</a>", RFC 8446, DOI 10.17487/RFC8446, August 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8484">[RFC8484]</b></td>
+<td class="top">
+<a>Hoffman, P.</a> and <a>P. McManus</a>, "<a href="https://tools.ietf.org/html/rfc8484">DNS Queries over HTTPS (DoH)</a>", RFC 8484, DOI 10.17487/RFC8484, October 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8499">[RFC8499]</b></td>
+<td class="top">
+<a>Hoffman, P.</a>, <a>Sullivan, A.</a> and <a>K. Fujiwara</a>, "<a href="https://tools.ietf.org/html/rfc8499">DNS Terminology</a>", BCP 219, RFC 8499, DOI 10.17487/RFC8499, January 2019.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.references.2">
+<a href="#rfc.references.2">14.2.</a> Informative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="CDN">[CDN]</b></td>
+<td class="top">"<a href="https://conferences.sigcomm.org/sigcomm/2015/pdf/papers/p167.pdf">End-User Mapping: Next Generation Request Routing for Content Delivery</a>", 2015.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.barnes-tls-pake">[I-D.barnes-tls-pake]</b></td>
+<td class="top">
+<a>Barnes, R.</a> and <a>O. Friel</a>, "<a href="https://tools.ietf.org/html/draft-barnes-tls-pake-04">Usage of PAKE with TLS 1.3</a>", Internet-Draft draft-barnes-tls-pake-04, July 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.camwinget-tls-use-cases">[I-D.camwinget-tls-use-cases]</b></td>
+<td class="top">
+<a>Andreasen, F.</a>, <a>Cam-Winget, N.</a> and <a>E. Wang</a>, "<a href="https://tools.ietf.org/html/draft-camwinget-tls-use-cases-05">TLS 1.3 Impact on Network-Based Security</a>", Internet-Draft draft-camwinget-tls-use-cases-05, July 2019.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-anima-bootstrapping-keyinfra">[I-D.ietf-anima-bootstrapping-keyinfra]</b></td>
+<td class="top">
+<a>Pritikin, M.</a>, <a>Richardson, M.</a>, <a>Behringer, M.</a> and <a>K. Watsen</a>, "<a href="https://tools.ietf.org/html/draft-ietf-anima-bootstrapping-keyinfra-24">Bootstrapping Remote Secure Key Infrastructures (BRSKI)</a>", Internet-Draft draft-ietf-anima-bootstrapping-keyinfra-24, July 2019.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.sah-resinfo-doh">[I-D.sah-resinfo-doh]</b></td>
+<td class="top">
+<a>Sood, P.</a>, <a>Arends, R.</a> and <a>P. Hoffman</a>, "<a href="https://tools.ietf.org/html/draft-sah-resinfo-doh-00">DNS Resolver Information: "doh"</a>", Internet-Draft draft-sah-resinfo-doh-00, May 2019.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC2775">[RFC2775]</b></td>
+<td class="top">
+<a>Carpenter, B.</a>, "<a href="https://tools.ietf.org/html/rfc2775">Internet Transparency</a>", RFC 2775, DOI 10.17487/RFC2775, February 2000.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7626">[RFC7626]</b></td>
+<td class="top">
+<a>Bortzmeyer, S.</a>, "<a href="https://tools.ietf.org/html/rfc7626">DNS Privacy Considerations</a>", RFC 7626, DOI 10.17487/RFC7626, August 2015.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7671">[RFC7671]</b></td>
+<td class="top">
+<a>Dukhovni, V.</a> and <a>W. Hardaker</a>, "<a href="https://tools.ietf.org/html/rfc7671">The DNS-Based Authentication of Named Entities (DANE) Protocol: Updates and Operational Guidance</a>", RFC 7671, DOI 10.17487/RFC7671, October 2015.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7871">[RFC7871]</b></td>
+<td class="top">
+<a>Contavalli, C.</a>, <a>van der Gaast, W.</a>, <a>Lawrence, D.</a> and <a>W. Kumari</a>, "<a href="https://tools.ietf.org/html/rfc7871">Client Subnet in DNS Queries</a>", RFC 7871, DOI 10.17487/RFC7871, May 2016.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8106">[RFC8106]</b></td>
+<td class="top">
+<a>Jeong, J.</a>, <a>Park, S.</a>, <a>Beloeil, L.</a> and <a>S. Madanapalli</a>, "<a href="https://tools.ietf.org/html/rfc8106">IPv6 Router Advertisement Options for DNS Configuration</a>", RFC 8106, DOI 10.17487/RFC8106, March 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8120">[RFC8120]</b></td>
+<td class="top">
+<a>Oiwa, Y.</a>, <a>Watanabe, H.</a>, <a>Takagi, H.</a>, <a>Maeda, K.</a>, <a>Hayashi, T.</a> and <a>Y. Ioku</a>, "<a href="https://tools.ietf.org/html/rfc8120">Mutual Authentication Protocol for HTTP</a>", RFC 8120, DOI 10.17487/RFC8120, April 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8310">[RFC8310]</b></td>
+<td class="top">
+<a>Dickinson, S.</a>, <a>Gillmor, D.</a> and <a>T. Reddy</a>, "<a href="https://tools.ietf.org/html/rfc8310">Usage Profiles for DNS over TLS and DNS over DTLS</a>", RFC 8310, DOI 10.17487/RFC8310, March 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8520">[RFC8520]</b></td>
+<td class="top">
+<a>Lear, E.</a>, <a>Droms, R.</a> and <a>D. Romascanu</a>, "<a href="https://tools.ietf.org/html/rfc8520">Manufacturer Usage Description Specification</a>", RFC 8520, DOI 10.17487/RFC8520, March 2019.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Tirumaleswar Reddy</span> 
+	  <span class="n hidden">
+		<span class="family-name">Reddy</span>
+	  </span>
+	</span>
+	<span class="org vcardline">McAfee, Inc.</span>
+	<span class="adr">
+	  <span class="vcardline">Embassy Golf Link Business Park</span>
+
+	  <span class="vcardline">
+		<span class="locality">Bangalore</span>,  
+		<span class="region">Karnataka</span> 
+		<span class="code">560071</span>
+	  </span>
+	  <span class="country-name vcardline">India</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:kondtir@gmail.com">kondtir@gmail.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Dan Wing</span> 
+	  <span class="n hidden">
+		<span class="family-name">Wing</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Citrix Systems, Inc.</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline">USA</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:dwing-ietf@fuggles.com">dwing-ietf@fuggles.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Michael C. Richardson</span> 
+	  <span class="n hidden">
+		<span class="family-name">Richardson</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Sandelman Software Works</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline">USA</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:mcr+ietf@sandelman.ca">mcr+ietf@sandelman.ca</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Mohamed Boucadair</span> 
+	  <span class="n hidden">
+		<span class="family-name">Boucadair</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Orange</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality">Rennes</span>,  
+		<span class="region"></span>
+		<span class="code">35000</span>
+	  </span>
+	  <span class="country-name vcardline">France</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:mohamed.boucadair@orange.com">mohamed.boucadair@orange.com</a></span>
+
+  </address>
+</div>
+
+</body>
+</html>
+
